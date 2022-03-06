@@ -1,0 +1,23 @@
+{
+  "name": "videogames-inventory",
+  "version": "1.0.0",
+  "description": "videogames inventory test",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LvcasX1/videogames-inventory.git"
+  },
+  "keywords": [
+    "videogames"
+  ],
+  "author": "LvcasX1",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LvcasX1/videogames-inventory/issues"
+  },
+  "homepage": "https://github.com/LvcasX1/videogames-inventory#readme"
+}
