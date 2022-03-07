@@ -1,4 +1,5 @@
 const videogameModel = require('../models/videogameModel');
+const sendMessage = require('../tools/sqs');
 
 module.exports = {
   getAll: (req, res) => {
@@ -6,7 +7,18 @@ module.exports = {
       if(err){
         res.status(500).send(err);
       } else {
-        res.status(200).send(data);
+        const messageParams = {
+          title: 'Get All',
+          group: 'GetAll',
+          message: data.toString()
+        }
+
+        try{
+          sendMessage(messageParams)
+          res.status(200).send(data);
+        } catch(err) {
+          res.status(500);
+        }
       }
     });
   },
@@ -15,40 +27,77 @@ module.exports = {
       if(err){
         res.status(500).send(err);
       }else{
-        res.status(200).send(data);
+        const messageParams = {
+          title: 'Get by id',
+          group: 'GetById',
+          message: JSON.stringify(data)
+        }
+
+        try{
+          sendMessage(messageParams);
+          res.status(200).send(data);
+        } catch(err) {
+          res.status(500).send(err);
+        }
       }
     })
   },
   create: (req, res) => {
+    const { name, year, publisher, genre } = req;
     const videogame = new videogameModel({
-      name: req.body.name,
-      year: req.body.year,
-      publisher: req.body.publisher,
-      genre: req.body.genre
+      name,
+      year,
+      publisher,
+      genre
     });
 
     videogame.save((err, data) => {
       if(!err) {
-        res.status(200).send('Videogame Created Successfully!');
+        const messageParams = {
+          title: 'Create',
+          group: 'Create',
+          message: JSON.stringify(data)
+        }
+
+        try{
+          sendMessage(messageParams)
+          res.status(200).send('Videogame Created Successfully!');
+        } catch(err) {
+          res.status(500).send(err);
+        }      
       } else {
         res.status(500).send('Erorr while saving videogame on database');
       }
     })
   },
   updateById: (req, res) => {
+    const { name, year, publisher, genre } = req.body;
+    const id = req.params.id;
+    
     videogameModel.findByIdAndUpdate(
-      req.params.id,
+      id,
       {
-        name: req.body.name,
-        year: req.body.year,
-        publisher: req.body.publisher,
-        genre: req.body.genre,
+        name,
+        year,
+        publisher,
+        genre,
       },
       (err, data) => {
         if(err) {
           res.status(500).send(err);
         } else {
-          res.status(200).send('Videogame updated sucessfully!');
+          const messageParams = {
+            title: 'UpdateById',
+            group: 'Update',
+            message: JSON.stringify(data)
+          }
+
+          try{
+            sendMessage(messageParams)
+            res.status(200).send('Videogame updated sucessfully!');
+          } catch(err) {
+            res.status(500).send(err);
+          }
         }
       }
     );
