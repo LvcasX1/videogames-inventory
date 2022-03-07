@@ -11,7 +11,13 @@ module.exports = {
     });
   },
   getById: (req, res) => {
-    res.send(req.params.id);
+    videogameModel.findById((req.params.id), (err, data) => {
+      if(err){
+        res.status(500).send(err);
+      }else{
+        res.status(200).send(data);
+      }
+    })
   },
   create: (req, res) => {
     const videogame = new videogameModel({
@@ -23,7 +29,7 @@ module.exports = {
 
     videogame.save((error, doc) => {
       if(!error) {
-        res.send('Videogame Created Successfully!');
+        res.status(200).send('Videogame Created Successfully!');
       } else {
         res.status(500).send('Erorr while saving videogame on database');
       }

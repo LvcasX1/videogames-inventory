@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Validator } = require('express-json-validator-middleware');
 
-const videogamesController = require('./controllers/videogames-controller');
+const videogamesController = require('./controllers/videogamesController');
 
 const { validate } = new Validator();
 
