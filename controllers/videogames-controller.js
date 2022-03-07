@@ -2,7 +2,13 @@ const videogameModel = require('../models/videogameModel');
 
 module.exports = {
   getAll: (req, res) => {
-    res.send(req.params);
+    videogameModel.find( (err, data) => {
+      if(err){
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    });
   },
   getById: (req, res) => {
     res.send(req.params.id);
