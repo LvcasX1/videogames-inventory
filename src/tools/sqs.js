@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const credentials = {
-  accessKeyId: 'AKIAR4FFMQNOWPPYP2OE',
-  secretAccessKey: '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'
+  accessKeyId: process.env.AWS_SQS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SQS_SECRET_ACCESS_KEY
 }
 AWS.config.update({region: 'us-east-2', credentials});
 
@@ -18,15 +18,13 @@ function sendMessage(event) {
     MessageDeduplicationId: event.group,
     MessageGroupId: event.group,
     MessageBody: event.message,
-    QueueUrl: 'https://sqs.us-east-2.amazonaws.com/129195869021/videogamesInventoryQueue.fifo'
+    QueueUrl: process.env.AWS_SQS_URL
   };
 
   sqs.sendMessage(params, function(err, data){
     if(err) {
-      console.log(err)
       return err
     } else {
-      console.log('message sent!')
       return 'Message sent to queue!'
     }
   })
