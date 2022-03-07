@@ -1,4 +1,5 @@
 const { ValidationError } = require('express-json-validator-middleware');
+const jwt = require('express-jwt');
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -20,7 +21,13 @@ function validationErrorMiddleware(error, request, response, next) {
 	next();
 }
 
+const checkToken = jwt({
+	secret: "Eh969JPlelyKNluxtxQeWMVJdo2Sr6kTUErRH0ibmKf8x9KPPqSETUDU1SOx0m4TqsO5wEAP8lH8aWLLun4QA",
+	algorithms: ['HS256']
+})
+
 app.use(express.json());
+app.use(checkToken);
 app.use('/', require('./routes'));
 app.use(validationErrorMiddleware);
 
