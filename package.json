@@ -25,6 +25,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "aws-sdk": "^2.1088.0",
     "express": "^4.17.3",
     "express-json-validator-middleware": "^2.2.1",
     "express-jwt": "^6.1.1",
