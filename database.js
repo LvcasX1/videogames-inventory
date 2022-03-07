@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb+srv://dbuser:dbuserpassword@cluster0.ikei5.mongodb.net/videogames?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true});
 
 let connection = mongoose.connection;
 

@@ -1,8 +1,9 @@
+require('dotenv').config();
 const { ValidationError } = require('express-json-validator-middleware');
 const jwt = require('express-jwt');
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 function validationErrorMiddleware(error, request, response, next) {
 	if (response.headersSent) {
