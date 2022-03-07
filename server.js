@@ -1,14 +1,29 @@
-const bodyParser = require('body-parser');
+const { ValidationError } = require('express-json-validator-middleware');
 const express = require('express');
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }))
+function validationErrorMiddleware(error, request, response, next) {
+	if (response.headersSent) {
+		return next(error);
+	}
 
-app.get('/', function(req, res){
-	res.send('Hello World!');
-});
+	const isValidationError = error instanceof ValidationError;
+	if (!isValidationError) {
+		return next(error);
+	}
+
+	response.status(400).json({
+		errors: error.validationErrors,
+	});
+
+	next();
+}
+
+app.use(express.json());
+app.use('/', require('./routes'));
+app.use(validationErrorMiddleware);
 
 app.listen(port, () => {
-	console.log(`Success! Your aplication is running on port ${port}`)
+	console.log(`Success! Your aplication is running on port ${port}`);
 });
