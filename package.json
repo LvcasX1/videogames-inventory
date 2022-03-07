@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/LvcasX1/videogames-inventory/issues"
   },
-  "homepage": "https://github.com/LvcasX1/videogames-inventory#readme"
+  "homepage": "https://github.com/LvcasX1/videogames-inventory#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "express": "^4.17.3",
+    "express-json-validator-middleware": "^2.2.1"
+  }
 }
