@@ -1,20 +1,21 @@
 const { ValidationError } = require('express-json-validator-middleware');
 
+// eslint-disable-next-line consistent-return
 function validationErrorMiddleware(error, request, response, next) {
-	if (response.headersSent) {
-		return next(error);
-	}
+  if (response.headersSent) {
+    return next(error);
+  }
 
-	const isValidationError = error instanceof ValidationError;
-	if (!isValidationError) {
-		return next(error);
-	}
+  const isValidationError = error instanceof ValidationError;
+  if (!isValidationError) {
+    return next(error);
+  }
 
-	response.status(400).json({
-		errors: error.validationErrors,
-	});
+  response.status(400).json({
+    errors: error.validationErrors,
+  });
 
-	next();
+  next();
 }
 
-module.exports = validationErrorMiddleware
+module.exports = validationErrorMiddleware;
