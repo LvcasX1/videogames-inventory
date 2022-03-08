@@ -13,7 +13,7 @@ npm install
 
 Before you run the project, you have to create a .env file with the following properties:
 ```
-AWS_SQS_ACCES_KEY_ID
+AWS_SQS_ACCESS_KEY_ID
 AWS_SQS_SECRET_ACCESS_KEY
 AWS_SQS_URL
 DB_URL
