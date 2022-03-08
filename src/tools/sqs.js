@@ -7,7 +7,7 @@ AWS.config.update({region: 'us-east-2', credentials});
 
 const sqs = new AWS.SQS({apiVersion: '2022-03-07'});
 
-function sendMessage(event) {
+async function sendMessage(event) {
   const params = {
     MessageAttributes: {
       Title: {
@@ -15,8 +15,6 @@ function sendMessage(event) {
         StringValue: event.title,
       }
     },
-    MessageDeduplicationId: event.group,
-    MessageGroupId: event.group,
     MessageBody: event.message,
     QueueUrl: process.env.AWS_SQS_URL
   };

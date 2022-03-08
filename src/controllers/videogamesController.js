@@ -1,105 +1,92 @@
 const videogameModel = require('../models/videogameModel');
 const sendMessage = require('../tools/sqs');
 
-module.exports = {
-  getAll: (req, res) => {
-    videogameModel.find( (err, data) => {
-      if(err){
-        res.status(500).send(err);
-      } else {
-        const messageParams = {
-          title: 'Get All',
-          group: 'GetAll',
-          message: data.toString()
-        }
-
-        try{
-          sendMessage(messageParams)
-          res.status(200).send(data);
-        } catch(err) {
-          res.status(500);
-        }
+async function getAll(req, res) {
+  videogameModel.find( async (err, data) => {
+    if(err){
+      res.status(500).send(err);
+    } else {
+      const messageParams = {
+        title: 'Get All',
+        group: 'GetAll',
+        message: data.toString()
       }
-    });
-  },
-  getById: (req, res) => {
-    videogameModel.findById((req.params.id), (err, data) => {
-      if(err){
-        res.status(500).send(err);
-      }else{
-        const messageParams = {
-          title: 'Get by id',
-          group: 'GetById',
-          message: JSON.stringify(data)
-        }
 
-        try{
-          sendMessage(messageParams);
-          res.status(200).send(data);
-        } catch(err) {
-          res.status(500).send(err);
-        }
+      await sendMessage(messageParams)
+      res.status(200).send(data);
+    }
+  });
+}
+
+async function getById(req, res) {
+  videogameModel.findById((req.params.id), async (err, data) => {
+    if(err){
+      res.status(500).send(err);
+    }else{
+      const messageParams = {
+        title: 'Get by id',
+        group: 'GetById',
+        message: JSON.stringify(data)
       }
-    })
-  },
-  create: (req, res) => {
-    const { name, year, publisher, genre } = req;
-    const videogame = new videogameModel({
+
+      await sendMessage(messageParams);
+      res.status(200).send(data);
+    }
+  })
+}
+
+async function create(req, res) {
+  const { name, year, publisher, genre } = req;
+  const videogame = new videogameModel({
+    name,
+    year,
+    publisher,
+    genre
+  });
+
+  videogame.save(async (err, data) => {
+    if(!err) {
+      const messageParams = {
+        title: 'Create',
+        group: 'Create',
+        message: JSON.stringify(data)
+      }
+
+      await sendMessage(messageParams)
+      res.status(200).send('Videogame Created Successfully!');
+    } else {
+      res.status(500).send('Erorr while saving videogame on database');
+    }
+  })
+}
+
+async function updateById(req, res) {
+  const { name, year, publisher, genre } = req.body;
+  const id = req.params.id;
+  
+  videogameModel.findByIdAndUpdate(
+    id,
+    {
       name,
       year,
       publisher,
-      genre
-    });
-
-    videogame.save((err, data) => {
-      if(!err) {
+      genre,
+    },
+    async (err, data) => {
+      if(err) {
+        res.status(500).send(err);
+      } else {
         const messageParams = {
-          title: 'Create',
-          group: 'Create',
+          title: 'UpdateById',
+          group: 'Update',
           message: JSON.stringify(data)
         }
 
-        try{
-          sendMessage(messageParams)
-          res.status(200).send('Videogame Created Successfully!');
-        } catch(err) {
-          res.status(500).send(err);
-        }      
-      } else {
-        res.status(500).send('Erorr while saving videogame on database');
+        await sendMessage(messageParams)
+        res.status(200).send('Videogame updated sucessfully!');
       }
-    })
-  },
-  updateById: (req, res) => {
-    const { name, year, publisher, genre } = req.body;
-    const id = req.params.id;
-    
-    videogameModel.findByIdAndUpdate(
-      id,
-      {
-        name,
-        year,
-        publisher,
-        genre,
-      },
-      (err, data) => {
-        if(err) {
-          res.status(500).send(err);
-        } else {
-          const messageParams = {
-            title: 'UpdateById',
-            group: 'Update',
-            message: JSON.stringify(data)
-          }
+    }
+  );
+}
 
-          try{
-            sendMessage(messageParams)
-            res.status(200).send('Videogame updated sucessfully!');
-          } catch(err) {
-            res.status(500).send(err);
-          }
-        }
-      }
-    );
-  }
-};
+module.exports = { getAll, getById, create, updateById }
