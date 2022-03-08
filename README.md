@@ -1,5 +1,23 @@
 # Videogames Inventory
-Hi there :wave: ! This is a videogame inventory app, my test project.  
+
+Hi there :wave: ! This is a videogame inventory app, my test project. This app is very small, just a basic CRUD operation for videogames.
+
+## How it works?
+
+The project is built with NodeJS + Express. Created games are stored in a database, on development was using Atlas.
+On each CRUD action made on any game, it will send an event to AWS SQS.  
+When the event reaches the queue it will trigger an AWS Lambda function that is in charge to send an e-mail through AWS Simple Email Service.
+
+[Click here](#workflow-diagram) to see the flow chart.
+### Features
+
+- MVC Pattern, resting on mongoose
+- Unit tests made with Jest
+- Eslint to ensure a code standard
+- Husky to manage pre-commit and pre-push with hooks
+- Multi environment support
+- JWT for authorization
+- Dockerized
 
 <br>
 
@@ -25,7 +43,7 @@ npm run dev
 
 <br>
 
-To run tests on the project run:
+To run tests on the project enter:
 ```
 npm run test
 ```
@@ -33,7 +51,7 @@ npm run test
 <br>
 <br>
 
-# Workflow Diagram:
+# Workflow Diagram
 ```mermaid
   flowchart TD
     Client --> VideogamesApi --> Atlas-MongoDB
@@ -44,7 +62,7 @@ npm run test
 
 <br>
 
-Our friends:
+## Our friends:
 - [NodeJS :coffee:](https://nodejs.dev):
 - [Express](https://expressjs.com)
 - [Docker :whale:](https://www.docker.com)
