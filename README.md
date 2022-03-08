@@ -43,6 +43,12 @@ To run lint on the project run:
 ```
 npm run lint
 ```
+
+or if you want to fix lint problems, just run:
+```
+npm run lint:fix
+```
+
 <br>
 <br>
 
