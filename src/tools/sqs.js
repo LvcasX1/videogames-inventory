@@ -15,8 +15,6 @@ async function sendMessage(event) {
         StringValue: event.title,
       }
     },
-    MessageDeduplicationId: event.group,
-    MessageGroupId: event.group,
     MessageBody: event.message,
     QueueUrl: process.env.AWS_SQS_URL
   };
