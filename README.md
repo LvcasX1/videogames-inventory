@@ -11,14 +11,9 @@ npm install
 ```
 <br>
 
-Before you run the project, you have to create a .env file with the following properties:
+Before you run the project, you have to create a .env file:
 ```
-AWS_SQS_ACCESS_KEY_ID
-AWS_SQS_SECRET_ACCESS_KEY
-AWS_SQS_URL
-DB_URL
-JWT_SECRET
-PORT
+cp .env.example .env
 ```
 
 <br>
@@ -27,26 +22,12 @@ You can run your project locally by using `Docker` or running the following comm
 ```
 npm run dev
 ```
-As the project uses `nodemon`, it will be nicer to work as changes are instantly shown.  
 
 <br>
 
 To run tests on the project run:
 ```
 npm run test
-```
-
-<br>
-
-To run lint on the project run:
-
-```
-npm run lint
-```
-
-or if you want to fix lint problems, just run:
-```
-npm run lint:fix
 ```
 
 <br>
