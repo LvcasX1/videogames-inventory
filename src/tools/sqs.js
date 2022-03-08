@@ -7,7 +7,7 @@ AWS.config.update({region: 'us-east-2', credentials});
 
 const sqs = new AWS.SQS({apiVersion: '2022-03-07'});
 
-function sendMessage(event) {
+async function sendMessage(event) {
   const params = {
     MessageAttributes: {
       Title: {

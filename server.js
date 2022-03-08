@@ -1,29 +1,14 @@
 require('dotenv').config();
-const { ValidationError } = require('express-json-validator-middleware');
-const jwt = require('express-jwt');
+require('express-async-errors');
 const express = require('express');
-const app = express();
+const jwt = require('express-jwt');
 const port = process.env.PORT;
+const validationErrorMiddleware = require('./src/tools/validationErrorMiddleware');
 
-function validationErrorMiddleware(error, request, response, next) {
-	if (response.headersSent) {
-		return next(error);
-	}
-
-	const isValidationError = error instanceof ValidationError;
-	if (!isValidationError) {
-		return next(error);
-	}
-
-	response.status(400).json({
-		errors: error.validationErrors,
-	});
-
-	next();
-}
+const app = express();
 
 const checkToken = jwt({
-	secret: "Eh969JPlelyKNluxtxQeWMVJdo2Sr6kTUErRH0ibmKf8x9KPPqSETUDU1SOx0m4TqsO5wEAP8lH8aWLLun4QA",
+	secret: process.env.JWT_SECRET,
 	algorithms: ['HS256']
 })
 
