@@ -1,5 +1,5 @@
-const mongoose = require('../../database');
 const { Schema } = require('mongoose');
+const mongoose = require('../../database');
 
 const videogameSchema = new Schema({
   name: String,
@@ -10,4 +10,4 @@ const videogameSchema = new Schema({
 
 const videogameModel = mongoose.model('videogames', videogameSchema);
 
-module.exports = videogameModel
+module.exports = videogameModel;
