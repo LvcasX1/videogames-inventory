@@ -41,7 +41,7 @@ async function updateById(req, res) {
   );
 
   await sendUpdateEvent(updatedVideogame);
-  res.status(200).send('Videogame updated successfully!')
+  res.status(200).send('Videogame updated successfully!');
 }
 
 async function deleteById(req, res) {
