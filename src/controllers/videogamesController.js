@@ -1,44 +1,16 @@
 const videogameModel = require('../models/videogameModel');
-const sendMessage = require('../tools/sqs');
-
-async function getAll(req, res) {
-  videogameModel.find(async (err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      const messageParams = {
-        title: 'Get All',
-        group: 'GetAll',
-        message: data.toString(),
-      };
-
-      await sendMessage(messageParams);
-      res.status(200).send(data);
-    }
-  });
-}
+const { sendCreateEvent, sendUpdateEvent, sendDeleteEvent } = require('../events/eventSender');
 
 async function getById(req, res) {
-  videogameModel.findById((req.params.id), async (err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      const messageParams = {
-        title: 'Get by id',
-        group: 'GetById',
-        message: JSON.stringify(data),
-      };
-
-      await sendMessage(messageParams);
-      res.status(200).send(data);
-    }
-  });
+  const videogame = await videogameModel.findById(req.params.id);
+  return res.status(200).send(videogame);
 }
 
 async function create(req, res) {
   const {
     name, year, publisher, genre,
-  } = req;
+  } = req.body;
+
   const videogame = new videogameModel({
     name,
     year,
@@ -46,20 +18,10 @@ async function create(req, res) {
     genre,
   });
 
-  videogame.save(async (err, data) => {
-    if (!err) {
-      const messageParams = {
-        title: 'Create',
-        group: 'Create',
-        message: JSON.stringify(data),
-      };
+  await videogame.save();
+  await sendCreateEvent(videogame);
 
-      await sendMessage(messageParams);
-      res.status(200).send('Videogame Created Successfully!');
-    } else {
-      res.status(500).send('Erorr while saving videogame on database');
-    }
-  });
+  res.status(201).send('Videogame created successfully!');
 }
 
 async function updateById(req, res) {
@@ -68,7 +30,7 @@ async function updateById(req, res) {
   } = req.body;
   const { id } = req.params;
 
-  videogameModel.findByIdAndUpdate(
+  const updatedVideogame = await videogameModel.findByIdAndUpdate(
     id,
     {
       name,
@@ -76,23 +38,21 @@ async function updateById(req, res) {
       publisher,
       genre,
     },
-    async (err, data) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        const messageParams = {
-          title: 'UpdateById',
-          group: 'Update',
-          message: JSON.stringify(data),
-        };
-
-        await sendMessage(messageParams);
-        res.status(200).send('Videogame updated sucessfully!');
-      }
-    },
   );
+
+  await sendUpdateEvent(updatedVideogame);
+  res.status(200).send('Videogame updated successfully!')
+}
+
+async function deleteById(req, res) {
+  const { id } = req.params;
+
+  const videogame = await videogameModel.findByIdAndDelete(id);
+
+  await sendDeleteEvent(videogame);
+  res.status(204).send('Videogame deleted successfully!');
 }
 
 module.exports = {
-  getAll, getById, create, updateById,
+  getById, create, updateById, deleteById,
 };

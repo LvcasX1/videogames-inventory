@@ -1,5 +1,5 @@
 const { Schema } = require('mongoose');
-const mongoose = require('../../database');
+const mongoose = require('../database');
 
 const videogameSchema = new Schema({
   name: { type: String, required: true },

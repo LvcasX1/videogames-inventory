@@ -3,14 +3,14 @@
 const mongoose = require('mongoose');
 const VideogameModel = require('./videogameModel');
 
-const videogameMock = {
-  name: 'Persona',
-  year: 2022,
-  publisher: 'atlus',
-  genre: 'jrpg',
-};
-
 describe('Videogame Model Test', () => {
+  const videogameMock = {
+    name: 'Persona',
+    year: 2022,
+    publisher: 'atlus',
+    genre: 'jrpg',
+  };
+
   beforeAll(async () => {
     await mongoose.connect(
       process.env.DB_URL,
