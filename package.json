@@ -8,7 +8,8 @@
     "lint": "eslint './src/**/*.js'",
     "lint:fix": "eslint './src/**/*.js' --fix",
     "start": "node server.js",
-    "test": "test"
+    "test": "jest",
+    "test:watch": "npm run test --watch"
   },
   "husky": {
     "hooks": {
@@ -36,6 +37,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "@shelf/jest-mongodb": "^2.2.1",
     "aws-sdk": "^2.1088.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -43,6 +45,7 @@
     "express-json-validator-middleware": "^2.2.1",
     "express-jwt": "^6.1.1",
     "husky": "^7.0.4",
+    "jest": "^27.5.1",
     "mongoose": "^6.2.4"
   }
 }
