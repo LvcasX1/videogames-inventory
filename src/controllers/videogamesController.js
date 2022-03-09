@@ -1,4 +1,4 @@
-const videogameModel = require('../models/videogameModel');
+const videogameModel = require('../database/models/videogameModel');
 const { sendCreateEvent, sendUpdateEvent, sendDeleteEvent } = require('../events/eventSender');
 
 async function getById(req, res) {
