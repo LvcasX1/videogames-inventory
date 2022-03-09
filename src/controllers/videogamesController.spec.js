@@ -66,4 +66,21 @@ describe('Videogames controller test', () => {
     expect(savedUpdatedVideoGame.name).toBe(randomNewName);
     expect(savedUpdatedVideoGame.genre).toBe(videogameMock.genre);
   });
+
+  it('should delete a videogame', async () => {
+    const randomName = Math.random().toString(16).substring(2, 8);
+    const videogame = { ...videogameMock };
+    videogame.name = randomName;
+
+    await request.post('/').set(headers).send(videogame);
+
+    const savedVideogame = await VideogameModel.findOne({ name: randomName });
+    const savedVideogameId = savedVideogame._id.toString();
+
+    await request.delete(`/${savedVideogameId}`).set(headers);
+
+    const deletedVideoGame = await VideogameModel.findById(savedVideogameId);
+
+    expect(deletedVideoGame).toBe(null);
+  });
 });
