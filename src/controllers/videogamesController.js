@@ -1,4 +1,4 @@
-const videogameModel = require('../models/videogameModel');
+const videogameModel = require('../database/models/videogameModel');
 const { sendCreateEvent, sendUpdateEvent, sendDeleteEvent } = require('../events/eventSender');
 
 async function getById(req, res) {
@@ -41,7 +41,7 @@ async function updateById(req, res) {
   );
 
   await sendUpdateEvent(updatedVideogame);
-  res.status(200).send('Videogame updated successfully!')
+  res.status(200).send('Videogame updated successfully!');
 }
 
 async function deleteById(req, res) {
