@@ -1,10 +1,10 @@
 require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
-const checkToken = require('./src/tools/checkJwtToken');
+const checkToken = require('./src/auth/checkJwtToken');
 
 const port = process.env.PORT;
-const validationErrorMiddleware = require('./src/tools/validationErrorMiddleware');
+const validationErrorMiddleware = require('./src/middlewares/validationErrorMiddleware');
 
 const app = express();
 
@@ -18,3 +18,5 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Success! Your aplication is running on port ${port}`);
 });
+
+module.exports = app;

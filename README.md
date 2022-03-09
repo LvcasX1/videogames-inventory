@@ -12,7 +12,7 @@ When the event reaches the queue it will trigger an AWS Lambda function that is 
 ### Features
 
 - MVC Pattern, resting on mongoose
-- Unit tests made with Jest
+- Functional tests made with Jest
 - Eslint to ensure a code standard
 - Husky to manage pre-commit and pre-push with hooks
 - Multi environment support
@@ -29,7 +29,7 @@ npm install
 ```
 <br>
 
-Before you run the project, you have to create a .env file:
+Before you run the project, you have to create a .env file and set env vars:
 ```
 cp .env.example .env
 ```
